@@ -4,19 +4,20 @@ class Player
 {
     private readonly Movement _movement;
     private readonly Stats _stats;
+    private readonly Weapon _weapon;
 
-    private Weapon _weapon;
-
-    public Player(Movement movement, Stats stats)
+    public Player(Movement movement, Stats stats, Weapon weapon)
     {
         _movement = movement ?? throw new ArgumentNullException(nameof(movement));
         _stats = stats ?? throw new ArgumentNullException(nameof(stats));
+        _weapon = weapon ?? throw new ArgumentNullException(nameof(_weapon));
     }
 
-    public void SetWeapon(Weapon weapon)
-    {
-        _weapon = weapon ?? throw new ArgumentNullException(nameof(weapon));
-    }
+    public void Move() =>
+        _movement.Move();
+
+    public void Attack() =>
+        _weapon.Attack();
 }
 
 public class Stats
@@ -30,9 +31,9 @@ public class Stats
         Age = age;
     }
 
-    public readonly string Name { get; private set; }
+    public string Name { get; private set; }
 
-    public readonly int Age { get; private set; }
+    public int Age { get; private set; }
 }
 
 public class Weapon
@@ -54,6 +55,9 @@ public class Weapon
 
     public void Attack()
     {
+        if (IsReloading())
+            return;
+
         //attack
     }
 
